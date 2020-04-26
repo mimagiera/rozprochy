@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+}
+
+group 'com.space-program'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 14
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "com.rabbitmq:amqp-client:5.9.0"
+    implementation "com.google.code.gson:gson:2.8.6"
+    implementation "org.slf4j:slf4j-api:1.7.30"
+
+    implementation "org.slf4j:slf4j-simple:1.7.30"
+}

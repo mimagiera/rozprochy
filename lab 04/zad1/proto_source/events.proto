@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "events";
+option java_outer_classname = "EventsProto";
+
+package events;
+
+message ArithmeticOpArguments {
+  int32 arg1 = 1;
+  int32 arg2 = 2;
+}
+
+message EventInfo {
+  EventType eventType = 1;
+  int32 price = 2;
+  repeated string artists = 3;
+}
+
+enum EventType {
+  FOOTBALL = 0;
+  CONCERT = 1;
+  BASKETBALL = 2;
+}
+
+message EventTyeArgument {
+  EventType eventType = 1;
+}
+
+service EventsService {
+  rpc Subscribe (stream EventTyeArgument) returns (stream EventInfo) {}
+}
+

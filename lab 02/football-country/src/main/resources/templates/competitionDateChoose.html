@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Choose competition and date</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<form action="#" th:action="@{/}" th:object="${competitionDateChoose}" method="post">
+    <h2>Choose competition</h2>
+    <label>
+        <select th:field="*{competitionId}">
+            <option th:each="competition : ${competitions}"
+                    th:value="${competition.id}"
+                    th:utext="${competition.getName()}"></option>
+        </select>
+    </label>
+    <h2>Choose date</h2>
+    <label>
+        <input type="date" th:field="*{date}">
+    </label>
+    <p>
+        <input type="submit" value="Submit"/> <input type="reset" value="Reset">
+    </p>
+</form>
+
+
+</body>
+</html>

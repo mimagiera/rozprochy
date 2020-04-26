@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Football matches</title>
+</head>
+<body>
+
+<p th:text="'Competition name: ' + ${competition.name}"></p>
+<table>
+    <thead>
+    <tr>
+        <th>Country name</th>
+        <th>Capital</th>
+        <th>Region</th>
+        <th>Subregion</th>
+        <th>Population</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td><span th:text="${country?.name}"> Home team </span></td>
+        <td><span th:text="${country?.capital}"> Home team </span></td>
+        <td><span th:text="${country?.region}"> Home team </span></td>
+        <td><span th:text="${country?.subregion}"> Home team </span></td>
+        <td><span th:text="${country?.population}"> Home team </span></td>
+    </tr>
+    </tbody>
+</table>
+<p th:text="'Matches date: ' + ${#dates.format(competitionDateChoose.date, 'dd-MMM-yyyy')}"></p>
+<p th:text="'Average goals per game: ' +${average}"></p>
+
+<h2>Matches results:</h2>
+<table>
+    <tr th:if="${matches.empty}">
+        <td colspan="2"> No matches available</td>
+    </tr>
+    <thead>
+    <tr>
+        <th>Time</th>
+        <th>Home team</th>
+        <th></th>
+        <th></th>
+        <th>Away team</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="match : ${matches}">
+        <td><span th:text="${#strings.substring(match.utcDate,11,16)}  "> Time </span></td>
+        <td><span th:text="${match.homeTeam.name}"> Home team </span></td>
+        <td><span th:text="${match.score.fullTime.homeTeam}"> </span></td>
+        <td><span th:text="${match.score.fullTime.awayTeam}"> </span></td>
+        <td><span th:text="${match.awayTeam.name}"> Away team </span></td>
+    </tr>
+    </tbody>
+</table>
+
+<h2>Top scorers in current season:</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Team</th>
+        <th>Goals</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${scorers.empty}">
+        <td colspan="2"> No scorers available</td>
+    </tr>
+    <tr th:each="scorer : ${scorers}">
+        <td><span th:text="${scorer.player.name}">Name</span></td>
+        <td><span th:text="${scorer.team.name}">Team</span></td>
+        <td><span th:text="${scorer.numberOfGoals}">Goals</span></td>
+    </tr>
+    </tbody>
+</table>
+
+<a href="/">Go to home page</a>
+
+</body>
+</html>

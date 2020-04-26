@@ -1,0 +1,23 @@
+plugins {
+    id 'org.springframework.boot' version '2.2.5.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '13'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.apache.logging.log4j:log4j-api:2.13.1'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'commons-lang:commons-lang:2.6'
+
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:2.2.5.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+}
