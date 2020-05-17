@@ -1,5 +1,5 @@
-# Zookeeper client based on 
-[ZooKeeper Java Example](https://zookeeper.apache.org/doc/r3.3.5/javaExample.html)
+# Zookeeper client
+based on [ZooKeeper Java Example](https://zookeeper.apache.org/doc/r3.3.5/javaExample.html)
 
 ## Features
 * when zookeeper node with name specified by argument `zNode` exists,
