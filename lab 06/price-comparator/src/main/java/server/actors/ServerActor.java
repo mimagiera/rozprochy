@@ -9,10 +9,6 @@ import akka.event.LoggingAdapter;
 import database.DatabaseConnection;
 import database.DatabaseQueries;
 import scala.concurrent.Future;
-import shop.ShopActor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static akka.pattern.Patterns.ask;
 import static server.Timeouts.helperTimeout;
@@ -20,7 +16,6 @@ import static server.Timeouts.helperTimeout;
 public class ServerActor extends AbstractActor {
     private final LoggingAdapter log = Logging.getLogger(getContext().getSystem(), this);
 
-    public static List<ActorRef> shops = new ArrayList<>();
     private static DatabaseConnection databaseConnection = new DatabaseConnection();
     static DatabaseQueries databaseQueries = new DatabaseQueries(databaseConnection.getConnection());
 
@@ -62,11 +57,6 @@ public class ServerActor extends AbstractActor {
         );
     }
 
-    @Override
-    public void preStart() {
-        shops.add(context().actorOf(Props.create(ShopActor.class), "biedronka"));
-        shops.add(context().actorOf(Props.create(ShopActor.class), "tesco"));
-    }
 
     @Override
     public void postStop() {

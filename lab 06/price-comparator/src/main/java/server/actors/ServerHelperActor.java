@@ -8,13 +8,14 @@ import akka.event.LoggingAdapter;
 import scala.concurrent.Future;
 import server.checkers.DatabaseChecker;
 import server.checkers.ShopChecker;
+import shop.ShopActor;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static java.lang.String.format;
-import static server.actors.ServerActor.shops;
 
 public class ServerHelperActor extends AbstractActor {
     private final LoggingAdapter log = Logging.getLogger(getContext().getSystem(), this);
@@ -23,9 +24,10 @@ public class ServerHelperActor extends AbstractActor {
     private final DatabaseChecker databaseChecker;
     private final ActorRef databaseSaverActor;
 
+    private List<ActorRef> shops = new ArrayList<>();
+
     public ServerHelperActor() {
         this.databaseSaverActor = context().actorOf(Props.create(DatabaseSaverActor.class));
-
         this.shopChecker = new ShopChecker(shops);
         this.databaseChecker = new DatabaseChecker(databaseSaverActor);
     }
@@ -36,8 +38,7 @@ public class ServerHelperActor extends AbstractActor {
                 .match(String.class, s -> {
                     if (s.startsWith("price")) {
                         String message = handleRequest(s);
-                        stopDatabaseActor();
-                        log.info("Sending message: \"{}\" from {} to {}", message, getSelf(), getSender());
+                        log.debug("Sending message: \"{}\" from {} to {}", message, getSelf(), getSender());
                         getSender().tell(message, getSelf());
 
                     }
@@ -45,8 +46,28 @@ public class ServerHelperActor extends AbstractActor {
                 .build();
     }
 
+    private void stopChildrenActors() {
+        stopDatabaseActor();
+        stopShopActors();
+    }
+
     private void stopDatabaseActor() {
         context().stop(databaseSaverActor);
+    }
+
+    private void stopShopActors() {
+        shops.forEach(shop -> context().stop(shop));
+    }
+
+    @Override
+    public void preStart() {
+        shops.add(context().actorOf(Props.create(ShopActor.class), "biedronka"));
+        shops.add(context().actorOf(Props.create(ShopActor.class), "tesco"));
+    }
+
+    @Override
+    public void postStop() {
+        stopChildrenActors();
     }
 
     private String handleRequest(String inComingMessage) {
